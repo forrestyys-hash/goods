@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Neon Noir Boutique</title>
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .auth-page {
+      min-height: calc(100vh - 80px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-8);
+      background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.1), transparent),
+                  radial-gradient(circle at bottom left, rgba(6, 182, 212, 0.1), transparent);
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      padding: var(--space-10);
+      text-align: center;
+    }
+    .auth-header { margin-bottom: var(--space-8); }
+    .auth-header h1 { font-size: var(--text-headline-lg); margin-bottom: var(--space-2); }
+    .auth-header p { color: var(--on-surface-variant); font-size: var(--text-body-sm); }
+
+    .auth-form { display: flex; flex-direction: column; gap: var(--space-4); text-align: left; }
+    
+    .social-auth {
+      margin-top: var(--space-8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-3);
+      background: var(--surface-container-high);
+      border: 1px solid var(--outline-variant);
+      color: var(--on-surface);
+      padding: var(--space-3);
+      border-radius: var(--radius-lg);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+    .social-btn:hover {
+      background: var(--surface-container-highest);
+      border-color: var(--outline);
+      transform: translateY(-2px);
+    }
+    .social-btn img { width: 20px; height: 20px; }
+
+    .divider {
+      margin: var(--space-8) 0;
+      position: relative;
+      text-align: center;
+    }
+    .divider::before {
+      content: "";
+      position: absolute;
+      top: 50%; left: 0; right: 0;
+      height: 1px; background: var(--outline-variant);
+      z-index: 0;
+    }
+    .divider span {
+      position: relative;
+      z-index: 1;
+      padding: 0 var(--space-4);
+      background: #1c1c1e; /* Card background approximation for glass look */
+      color: var(--outline);
+      font-size: var(--text-label-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .auth-toggle {
+      margin-top: var(--space-8);
+      font-size: var(--text-body-sm);
+      color: var(--on-surface-variant);
+    }
+    .auth-toggle button {
+      background: none; border: none;
+      color: var(--primary); font-weight: 700;
+      cursor: pointer; padding: 0 var(--space-1);
+      text-decoration: underline;
+    }
+
+    /* Tab States */
+    [data-view="signup"] #view-login { display: none; }
+    [data-view="login"] #view-signup { display: none; }
+  </style>
+</head>
+<body class="page-body" data-view="login">
+
+  <!-- GNB Minimal -->
+  <header class="gnb">
+    <div class="gnb__inner" style="justify-content:center">
+      <a href="index.html" class="gnb__logo">NEON NOIR</a>
+    </div>
+  </header>
+
+  <main class="auth-page">
+    <div class="glass-card auth-card" id="auth-container">
+      
+      <!-- LOGIN VIEW -->
+      <div id="view-login">
+        <div class="auth-header">
+          <h1>Welcome Back</h1>
+          <p>프리미엄 아트 갤러리에 오신 것을 환영합니다.</p>
+        </div>
+
+        <form class="auth-form" onsubmit="handleAuth(event, 'login')">
+          <div class="input-group">
+            <label class="label">Email Address</label>
+            <input type="email" class="input" placeholder="name@example.com" required>
+          </div>
+          <div class="input-group">
+            <label class="label">Password</label>
+            <input type="password" class="input" placeholder="••••••••" required>
+          </div>
+          <div style="text-align:right">
+            <a href="#" class="btn btn--tertiary" style="font-size:var(--text-label-sm);padding:0">Forgot Password?</a>
+          </div>
+          <button type="submit" class="btn btn--primary btn--block btn--lg">Sign In</button>
+        </form>
+
+        <div class="divider"><span>Or continue with</span></div>
+
+        <div class="social-auth">
+          <button class="social-btn" onclick="socialLogin('Google')">
+            <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google">
+            Google
+          </button>
+          <button class="social-btn" onclick="socialLogin('GitHub')">
+            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub">
+            GitHub
+          </button>
+        </div>
+
+        <p class="auth-toggle">
+          Don't have an account? 
+          <button onclick="toggleAuth('signup')">Sign Up</button>
+        </p>
+      </div>
+
+      <!-- SIGNUP VIEW -->
+      <div id="view-signup">
+        <div class="auth-header">
+          <h1>Join the Gallery</h1>
+          <p>네온 누아르 컬렉터가 되어 특별한 혜택을 누리세요.</p>
+        </div>
+
+        <form class="auth-form" onsubmit="handleAuth(event, 'signup')">
+          <div class="input-group">
+            <label class="label">Full Name</label>
+            <input type="text" class="input" placeholder="John Doe" required>
+          </div>
+          <div class="input-group">
+            <label class="label">Email Address</label>
+            <input type="email" class="input" placeholder="name@example.com" required>
+          </div>
+          <div class="input-group">
+            <label class="label">Password</label>
+            <input type="password" class="input" placeholder="Minimum 8 characters" required minlength="8">
+          </div>
+          <label class="detail__meta-item" style="cursor:pointer; gap:var(--space-3)">
+            <input type="checkbox" required>
+            <span style="font-size:var(--text-label-sm)">I agree to the Terms and Privacy Policy</span>
+          </label>
+          <button type="submit" class="btn btn--primary btn--block btn--lg">Create Account</button>
+        </form>
+
+        <div class="divider"><span>Or join with</span></div>
+
+        <div class="social-auth">
+          <button class="social-btn" onclick="socialLogin('Google')">
+            <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google">
+            Sign up with Google
+          </button>
+        </div>
+
+        <p class="auth-toggle">
+          Already a member? 
+          <button onclick="toggleAuth('login')">Sign In</button>
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    function toggleAuth(view) {
+      document.body.setAttribute('data-view', view);
+      document.title = view === 'login' ? 'Sign In — Neon Noir Boutique' : 'Join — Neon Noir Boutique';
+    }
+
+    function handleAuth(e, type) {
+      e.preventDefault();
+      const msg = type === 'login' ? '로그인 성공! 🎉' : '계정 생성이 완료되었습니다! 🎉';
+      showToast(msg, 'success');
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1500);
+    }
+
+    function socialLogin(provider) {
+      showToast(`${provider} 로그인 기능을 준비 중입니다.`, 'success');
+    }
+
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.className = `toast toast--${type} toast--visible`;
+      toast.textContent = msg;
+      setTimeout(() => toast.classList.remove('toast--visible'), 3000);
+    }
+  </script>
+</body>
+</html>
