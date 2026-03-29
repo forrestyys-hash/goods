@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart — Neon Noir Boutique</title>
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .cart-page { padding: var(--space-12) 0 var(--space-20); }
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: var(--space-10);
+      align-items: start;
+    }
+    .cart-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: var(--space-8);
+    }
+    .cart-header h1 { font-size: var(--text-headline-lg); }
+    .cart-item {
+      display: grid;
+      grid-template-columns: 100px 1fr auto;
+      gap: var(--space-6);
+      align-items: center;
+      padding: var(--space-6) 0;
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item__image {
+      width: 100px; height: 120px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background: var(--surface-container);
+    }
+    .cart-item__image img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .cart-item__info { display: flex; flex-direction: column; gap: var(--space-1); }
+    .cart-item__genre {
+      font-size: var(--text-label-sm); color: var(--secondary);
+      text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;
+    }
+    .cart-item__title {
+      font-family: var(--font-headline); font-weight: 700;
+      font-size: var(--text-body-md); color: var(--on-surface);
+    }
+    .cart-item__unit-price {
+      font-size: var(--text-body-sm); color: var(--outline);
+    }
+    .cart-item__controls {
+      display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-3);
+    }
+    .cart-item__subtotal {
+      font-family: var(--font-headline); font-weight: 800;
+      font-size: var(--text-title-md); color: var(--primary);
+    }
+
+    .cart-empty {
+      text-align: center; padding: var(--space-20) 0;
+    }
+    .cart-empty .material-symbols-outlined {
+      font-size: 80px; color: var(--outline-variant);
+      margin-bottom: var(--space-4); display: block;
+    }
+    .cart-empty h2 { color: var(--on-surface-variant); margin-bottom: var(--space-6); }
+
+    .order-summary__title {
+      font-family: var(--font-headline); font-weight: 800;
+      font-size: var(--text-title-lg); margin-bottom: var(--space-6);
+    }
+
+    /* Free shipping progress bar */
+    .free-ship {
+      background: var(--surface-container); border-radius: var(--radius-lg);
+      padding: var(--space-4); margin-bottom: var(--space-6);
+      text-align: center; font-size: var(--text-body-sm);
+      color: var(--on-surface-variant);
+    }
+    .free-ship__bar {
+      height: 4px; background: var(--surface-container-highest);
+      border-radius: var(--radius-full); margin-top: var(--space-2); overflow: hidden;
+    }
+    .free-ship__fill {
+      height: 100%; background: linear-gradient(90deg, var(--secondary-container), var(--primary-container));
+      border-radius: var(--radius-full); transition: width var(--duration-normal) var(--ease-out);
+    }
+
+    @media (max-width: 1024px) {
+      .cart-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+    }
+    @media (max-width: 640px) {
+      .cart-item { grid-template-columns: 80px 1fr; }
+      .cart-item__controls { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; }
+    }
+  </style>
+</head>
+<body class="page-body">
+
+  <!-- GNB -->
+  <header class="gnb" id="gnb">
+    <div class="gnb__inner">
+      <a href="index.html" class="gnb__logo">NEON NOIR</a>
+      <nav>
+        <ul class="gnb__nav">
+          <li><a href="product-list.html" class="gnb__link">New Arrivals</a></li>
+          <li><a href="product-list.html" class="gnb__link">Best Sellers</a></li>
+          <li><a href="product-list.html" class="gnb__link">Exclusives</a></li>
+        </ul>
+      </nav>
+      <div class="gnb__actions">
+        <button class="btn-icon" aria-label="Search"><span class="material-symbols-outlined">search</span></button>
+        <a href="cart.html" class="btn-icon" aria-label="Cart" style="position:relative">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          <span class="badge" id="cart-badge">0</span>
+        </a>
+        <a href="login.html" class="btn-icon" aria-label="Account"><span class="material-symbols-outlined">person</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="cart-page">
+      <div class="container">
+        <div class="cart-header">
+          <h1>Shopping Cart</h1>
+          <a href="product-list.html" class="btn btn--tertiary">← Continue Shopping</a>
+        </div>
+
+        <!-- Cart with items -->
+        <div class="cart-layout" id="cart-content" style="display:none">
+          <!-- Items List -->
+          <div id="cart-items"></div>
+
+          <!-- Order Summary -->
+          <div class="order-summary">
+            <h2 class="order-summary__title">Order Summary</h2>
+            <div class="free-ship" id="free-ship">
+              <span id="free-ship-text">$50 이상 주문 시 무료배송!</span>
+              <div class="free-ship__bar"><div class="free-ship__fill" id="free-ship-fill" style="width:0%"></div></div>
+            </div>
+            <div class="order-summary__row">
+              <span>Subtotal</span>
+              <span id="subtotal">$0.00</span>
+            </div>
+            <div class="order-summary__row">
+              <span>Shipping</span>
+              <span id="shipping">$0.00</span>
+            </div>
+            <div class="order-summary__row">
+              <span>Tax (10%)</span>
+              <span id="tax">$0.00</span>
+            </div>
+            <div class="order-summary__row order-summary__row--total">
+              <span style="font-weight:700;color:var(--on-surface)">Total</span>
+              <span class="order-summary__total-price" id="total">$0.00</span>
+            </div>
+            <button class="btn btn--primary btn--block btn--lg" style="margin-top:var(--space-6)" onclick="handleCheckout()">
+              <span class="material-symbols-outlined">lock</span>
+              Proceed to Checkout
+            </button>
+            <button class="btn btn--danger btn--block" style="margin-top:var(--space-3)" onclick="clearCart()">
+              Clear Cart
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty Cart -->
+        <div class="cart-empty" id="cart-empty" style="display:none">
+          <span class="material-symbols-outlined">shopping_cart</span>
+          <h2>장바구니가 비었습니다</h2>
+          <p style="color:var(--on-surface-variant);margin-bottom:var(--space-8)">마음에 드는 아이템을 담아보세요!</p>
+          <a href="product-list.html" class="btn btn--primary btn--lg">
+            <span class="material-symbols-outlined">storefront</span>
+            Shop Now
+          </a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__grid">
+      <div>
+        <p class="footer__brand">NEON NOIR</p>
+        <p class="footer__desc">프리미엄 컬렉터블 아트 & 굿즈 갤러리.</p>
+      </div>
+      <div>
+        <p class="footer__title">Shop</p>
+        <ul class="footer__links">
+          <li><a href="product-list.html" class="footer__link">All Items</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__title">Support</p>
+        <ul class="footer__links">
+          <li><a href="#" class="footer__link">FAQ</a></li>
+          <li><a href="#" class="footer__link">Shipping</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__title">Follow</p>
+        <ul class="footer__links">
+          <li><a href="#" class="footer__link">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer__bottom">© 2026 Neon Noir Boutique. All rights reserved.</p>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const FREE_SHIP_THRESHOLD = 50;
+    const SHIPPING_COST = 5.99;
+    const TAX_RATE = 0.10;
+
+    function getCart() { return JSON.parse(localStorage.getItem('neonCart') || '[]'); }
+    function saveCart(cart) { localStorage.setItem('neonCart', JSON.stringify(cart)); updateCartBadge(); renderCart(); }
+
+    function renderCart() {
+      const cart = getCart();
+      const content = document.getElementById('cart-content');
+      const empty = document.getElementById('cart-empty');
+
+      if (cart.length === 0) {
+        content.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+      content.style.display = '';
+      empty.style.display = 'none';
+
+      // Render items
+      document.getElementById('cart-items').innerHTML = cart.map((item, i) => `
+        <div class="cart-item">
+          <div class="cart-item__image">
+            <a href="product-detail.html?id=${item.id}"><img src="${item.image}" alt="${item.title}"></a>
+          </div>
+          <div class="cart-item__info">
+            <span class="cart-item__genre">${item.genre || ''}</span>
+            <span class="cart-item__title">${item.title}</span>
+            <span class="cart-item__unit-price">$${item.price.toFixed(2)} each</span>
+          </div>
+          <div class="cart-item__controls">
+            <span class="cart-item__subtotal">$${(item.price * item.qty).toFixed(2)}</span>
+            <div style="display:flex;align-items:center;gap:var(--space-3)">
+              <div class="qty-control">
+                <button class="qty-control__btn" onclick="updateQty(${i}, -1)">−</button>
+                <span class="qty-control__value">${item.qty}</span>
+                <button class="qty-control__btn" onclick="updateQty(${i}, 1)">+</button>
+              </div>
+              <button class="btn btn--danger" onclick="removeItem(${i})">
+                <span class="material-symbols-outlined" style="font-size:18px">delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Calculate totals
+      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const shipping = subtotal >= FREE_SHIP_THRESHOLD ? 0 : SHIPPING_COST;
+      const tax = subtotal * TAX_RATE;
+      const total = subtotal + shipping + tax;
+
+      document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('shipping').textContent = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
+      document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+      document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+
+      // Free shipping bar
+      const pct = Math.min((subtotal / FREE_SHIP_THRESHOLD) * 100, 100);
+      document.getElementById('free-ship-fill').style.width = pct + '%';
+      if (subtotal >= FREE_SHIP_THRESHOLD) {
+        document.getElementById('free-ship-text').textContent = '🎉 무료배송 적용!';
+      } else {
+        const remaining = (FREE_SHIP_THRESHOLD - subtotal).toFixed(2);
+        document.getElementById('free-ship-text').textContent = `$${remaining} 더 담으면 무료배송!`;
+      }
+    }
+
+    function updateQty(index, delta) {
+      const cart = getCart();
+      cart[index].qty = Math.max(1, cart[index].qty + delta);
+      saveCart(cart);
+    }
+
+    function removeItem(index) {
+      const cart = getCart();
+      const removed = cart.splice(index, 1)[0];
+      saveCart(cart);
+      showToast(`"${removed.title}" 삭제됨`, 'error');
+    }
+
+    function clearCart() {
+      if (!confirm('장바구니를 비우시겠습니까?')) return;
+      localStorage.setItem('neonCart', '[]');
+      updateCartBadge();
+      renderCart();
+      showToast('장바구니가 비워졌습니다.', 'error');
+    }
+
+    function handleCheckout() {
+      showToast('결제 기능은 Phase 3에서 구현됩니다.', 'success');
+    }
+
+    function updateCartBadge() {
+      const total = getCart().reduce((s, i) => s + i.qty, 0);
+      const badge = document.getElementById('cart-badge');
+      badge.textContent = total;
+      badge.style.display = total > 0 ? 'flex' : 'none';
+    }
+
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.className = `toast toast--${type} toast--visible`;
+      toast.textContent = msg;
+      setTimeout(() => toast.classList.remove('toast--visible'), 3000);
+    }
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('gnb').style.background = window.scrollY > 50 ? 'rgba(19,19,21,0.9)' : 'rgba(19,19,21,0.6)';
+    });
+
+    document.addEventListener('DOMContentLoaded', () => { renderCart(); updateCartBadge(); });
+  </script>
+</body>
+</html>

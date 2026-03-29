@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Detail — Neon Noir Boutique</title>
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .detail { padding: var(--space-12) 0 var(--space-20); }
+    .detail__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+      align-items: start;
+    }
+    .detail__gallery {
+      border-radius: var(--radius-2xl);
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      background: var(--surface-container);
+    }
+    .detail__gallery img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .detail__info {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+    .detail__genre {
+      font-family: var(--font-label);
+      font-size: var(--text-label-md);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--secondary);
+      font-weight: 700;
+    }
+    .detail__title {
+      font-size: var(--text-display-md);
+      line-height: 1.1;
+    }
+    .detail__price {
+      font-family: var(--font-headline);
+      font-size: var(--text-headline-lg);
+      font-weight: 900;
+      color: var(--primary);
+    }
+    .detail__desc {
+      color: var(--on-surface-variant);
+      line-height: 1.8;
+      font-size: var(--text-body-md);
+    }
+    .detail__meta {
+      display: flex;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+    }
+    .detail__meta-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-body-sm);
+      color: var(--on-surface-variant);
+    }
+    .detail__meta-item .material-symbols-outlined {
+      font-size: 18px;
+      color: var(--secondary);
+    }
+    .detail__badge {
+      display: inline-flex;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      font-size: var(--text-label-sm);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .detail__actions {
+      display: flex;
+      gap: var(--space-4);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .related {
+      padding: var(--space-16) 0 var(--space-20);
+    }
+    @media (max-width: 768px) {
+      .detail__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+      .detail__title { font-size: var(--text-headline-lg); }
+    }
+  </style>
+</head>
+<body class="page-body">
+
+  <!-- GNB -->
+  <header class="gnb" id="gnb">
+    <div class="gnb__inner">
+      <a href="index.html" class="gnb__logo">NEON NOIR</a>
+      <nav>
+        <ul class="gnb__nav">
+          <li><a href="product-list.html" class="gnb__link">New Arrivals</a></li>
+          <li><a href="product-list.html" class="gnb__link">Best Sellers</a></li>
+          <li><a href="product-list.html" class="gnb__link">Exclusives</a></li>
+        </ul>
+      </nav>
+      <div class="gnb__actions">
+        <button class="btn-icon" aria-label="Search"><span class="material-symbols-outlined">search</span></button>
+        <a href="cart.html" class="btn-icon" aria-label="Cart" style="position:relative">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          <span class="badge" id="cart-badge">0</span>
+        </a>
+        <a href="login.html" class="btn-icon" aria-label="Account"><span class="material-symbols-outlined">person</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Breadcrumb -->
+    <div class="container" style="padding-top:var(--space-4)">
+      <nav style="font-size:var(--text-label-sm);color:var(--outline)">
+        <a href="index.html" style="color:var(--outline)">Home</a> /
+        <a href="product-list.html" style="color:var(--outline)">Products</a> /
+        <span id="breadcrumb-title" style="color:var(--on-surface-variant)">Loading...</span>
+      </nav>
+    </div>
+
+    <!-- Detail -->
+    <section class="detail">
+      <div class="container">
+        <div class="detail__grid">
+          <div class="detail__gallery">
+            <img id="detail-image" src="" alt="">
+          </div>
+          <div class="detail__info">
+            <div style="display:flex;align-items:center;gap:var(--space-3)">
+              <span class="detail__genre" id="detail-genre"></span>
+              <span class="detail__badge" id="detail-badge" style="display:none"></span>
+            </div>
+            <h1 class="detail__title" id="detail-title"></h1>
+            <p class="detail__price" id="detail-price"></p>
+            <p class="detail__desc" id="detail-desc"></p>
+            <div class="detail__meta">
+              <div class="detail__meta-item">
+                <span class="material-symbols-outlined">inventory_2</span>
+                <span id="detail-stock">In Stock</span>
+              </div>
+              <div class="detail__meta-item">
+                <span class="material-symbols-outlined">local_shipping</span>
+                <span>Free shipping over $50</span>
+              </div>
+            </div>
+            <div class="detail__actions">
+              <div class="qty-control">
+                <button class="qty-control__btn" onclick="changeQty(-1)">−</button>
+                <span class="qty-control__value" id="qty-value">1</span>
+                <button class="qty-control__btn" onclick="changeQty(1)">+</button>
+              </div>
+              <button class="btn btn--primary btn--lg" id="add-to-cart-btn" onclick="handleAddToCart()">
+                <span class="material-symbols-outlined">shopping_bag</span>
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related -->
+    <section class="related">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-header__label">✦ You might also like</p>
+            <h2 class="section-header__title">Related Items</h2>
+          </div>
+        </div>
+        <div class="product-grid" id="related-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__grid">
+      <div>
+        <p class="footer__brand">NEON NOIR</p>
+        <p class="footer__desc">프리미엄 컬렉터블 아트 & 굿즈 갤러리.</p>
+      </div>
+      <div>
+        <p class="footer__title">Shop</p>
+        <ul class="footer__links">
+          <li><a href="product-list.html" class="footer__link">All Items</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__title">Support</p>
+        <ul class="footer__links">
+          <li><a href="#" class="footer__link">FAQ</a></li>
+          <li><a href="#" class="footer__link">Shipping</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__title">Follow</p>
+        <ul class="footer__links">
+          <li><a href="#" class="footer__link">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer__bottom">© 2026 Neon Noir Boutique. All rights reserved.</p>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const allProducts = [
+      { id:1, title:'Shadow Monarch Acrylic Standee', price:24.99, genre:'Fantasy', badge:'Rare', stock:50, desc:'한정판 솔로 레벨링 시리즈 아크릴 스탠드. 정교한 디테일과 투명 아크릴 소재로 데스크 위를 빛나게 합니다.', image:'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=1000&fit=crop' },
+      { id:2, title:'Villainess Reverses the Hourglass Vol.1', price:35.00, genre:'Romance', badge:null, stock:120, desc:'하드커버 컬렉터즈 에디션. 아름다운 일러스트와 고급 제본으로 소장 가치를 높였습니다.', image:'https://images.unsplash.com/photo-1629196914375-d6a56f581a42?w=800&h=1000&fit=crop' },
+      { id:3, title:'Abyssal Dragon Ceramic Mug', price:18.00, genre:'Fantasy', badge:'New', stock:200, desc:'무광 블랙 세라믹에 양각 드래곤 로고. 350ml 용량으로 커피 한 잔의 여유를 판타지와 함께.', image:'https://images.unsplash.com/photo-1611174743420-3d7df880ce32?w=800&h=1000&fit=crop' },
+      { id:4, title:"Hero's Crest Enamel Pin Set", price:12.50, genre:'Action', badge:null, stock:300, desc:'5종 에나멜 핀 컬렉션. 가방, 재킷, 모자 등 어디에나 포인트가 되는 히어로 문장 세트.', image:'https://images.unsplash.com/photo-1586075010882-3a0c26cf0d4f?w=800&h=1000&fit=crop' },
+      { id:5, title:'Floating Island Lithograph', price:45.00, genre:'Fantasy', badge:'Rare', stock:30, desc:'메탈릭 페이퍼 아트 프린트. 파노라마 판타지 도시 풍경을 메탈릭 잉크로 표현했습니다.', image:'https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&h=1000&fit=crop' },
+      { id:6, title:'Mana Weaver Oversized Hoodie', price:55.00, genre:'Slice of Life', badge:null, stock:80, desc:'퍼플 톤의 오버사이즈 후디. 미니멀 고양이 라인아트 프린트, 부드러운 안감.', image:'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=1000&fit=crop' },
+      { id:7, title:'Crystal Sword Letter Opener', price:22.50, genre:'Fantasy', badge:'New', stock:150, desc:'크리스탈 소드 디자인 레터 오프너. 아연 합금 소재, 미니어처 무기로 데스크를 장식하세요.', image:'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&h=1000&fit=crop' },
+      { id:8, title:'Neon Cityscape Canvas Print', price:68.00, genre:'Sci-Fi', badge:'Rare', stock:30, desc:'사이버펑크 네온 도시 풍경 캔버스 프린트. UV 코팅으로 선명한 발색, 액자 포함.', image:'https://images.unsplash.com/photo-1534312527009-56c7016453e6?w=800&h=1000&fit=crop' },
+    ];
+
+    let qty = 1;
+    let currentProduct = null;
+
+    function getProductId() {
+      const params = new URLSearchParams(window.location.search);
+      return parseInt(params.get('id')) || 1;
+    }
+
+    function loadProduct() {
+      const id = getProductId();
+      currentProduct = allProducts.find(p => p.id === id) || allProducts[0];
+
+      document.getElementById('detail-image').src = currentProduct.image;
+      document.getElementById('detail-image').alt = currentProduct.title;
+      document.getElementById('detail-genre').textContent = currentProduct.genre;
+      document.getElementById('detail-title').textContent = currentProduct.title;
+      document.getElementById('detail-price').textContent = `$${currentProduct.price.toFixed(2)}`;
+      document.getElementById('detail-desc').textContent = currentProduct.desc;
+      document.getElementById('detail-stock').textContent = currentProduct.stock > 0 ? `In Stock (${currentProduct.stock})` : 'Out of Stock';
+      document.getElementById('breadcrumb-title').textContent = currentProduct.title;
+      document.title = `${currentProduct.title} — Neon Noir Boutique`;
+
+      const badge = document.getElementById('detail-badge');
+      if (currentProduct.badge) {
+        badge.style.display = '';
+        badge.textContent = currentProduct.badge;
+      }
+
+      // Related products (같은 장르, 자기 제외, 최대 4개)
+      const related = allProducts.filter(p => p.genre === currentProduct.genre && p.id !== currentProduct.id).slice(0, 4);
+      document.getElementById('related-grid').innerHTML = related.map(p => `
+        <a href="product-detail.html?id=${p.id}" class="card" style="text-decoration:none">
+          ${p.badge ? `<span class="card__badge card__badge--${p.badge.toLowerCase()}">${p.badge}</span>` : ''}
+          <div class="card__image"><img src="${p.image}" alt="${p.title}" loading="lazy"></div>
+          <div class="card__body">
+            <p class="card__genre">${p.genre}</p>
+            <h3 class="card__title">${p.title}</h3>
+            <div class="card__actions">
+              <span class="card__price">$${p.price.toFixed(2)}</span>
+              <button class="btn-icon" onclick="event.preventDefault(); addToCart(${p.id})" aria-label="Add to cart">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+            </div>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    function changeQty(delta) {
+      qty = Math.max(1, Math.min(qty + delta, currentProduct?.stock || 99));
+      document.getElementById('qty-value').textContent = qty;
+    }
+
+    function handleAddToCart() {
+      if (!currentProduct) return;
+      const cart = getCart();
+      const existing = cart.find(i => i.id === currentProduct.id);
+      if (existing) { existing.qty += qty; }
+      else { cart.push({ id: currentProduct.id, title: currentProduct.title, price: currentProduct.price, image: currentProduct.image, genre: currentProduct.genre, qty }); }
+      saveCart(cart);
+      showToast(`"${currentProduct.title}" × ${qty} 장바구니에 담겼습니다!`, 'success');
+      qty = 1;
+      document.getElementById('qty-value').textContent = 1;
+    }
+
+    function getCart() { return JSON.parse(localStorage.getItem('neonCart') || '[]'); }
+    function saveCart(cart) { localStorage.setItem('neonCart', JSON.stringify(cart)); updateCartBadge(); }
+    function updateCartBadge() {
+      const total = getCart().reduce((s, i) => s + i.qty, 0);
+      const badge = document.getElementById('cart-badge');
+      badge.textContent = total;
+      badge.style.display = total > 0 ? 'flex' : 'none';
+    }
+    function showToast(msg, type='success') {
+      const toast = document.getElementById('toast');
+      toast.className = `toast toast--${type} toast--visible`;
+      toast.textContent = msg;
+      setTimeout(() => toast.classList.remove('toast--visible'), 3000);
+    }
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('gnb').style.background = window.scrollY > 50 ? 'rgba(19,19,21,0.9)' : 'rgba(19,19,21,0.6)';
+    });
+
+    document.addEventListener('DOMContentLoaded', () => { loadProduct(); updateCartBadge(); });
+  </script>
+</body>
+</html>

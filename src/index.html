@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Neon Noir Boutique — 프리미엄 컬렉터블 아트 & 굿즈 갤러리. 한정판 아이템을 만나보세요.">
+  <title>Neon Noir Boutique — The Electric Gallery</title>
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    /* === 메인 페이지 전용 스타일 === */
+
+    /* Hero Neon Glow BG */
+    .hero__glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero__glow--purple {
+      background: var(--primary-container);
+      top: 10%; left: 20%;
+    }
+    .hero__glow--blue {
+      background: var(--secondary-container);
+      bottom: 10%; right: 15%;
+    }
+
+    /* Collab Split */
+    .collab {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 500px;
+      background: var(--surface-container-low);
+    }
+    .collab__image { overflow: hidden; }
+    .collab__image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .collab__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-16);
+      gap: var(--space-6);
+    }
+    .collab__quote {
+      font-family: var(--font-headline);
+      font-size: var(--text-headline-md);
+      font-weight: 700;
+      color: var(--on-surface);
+      font-style: italic;
+      line-height: 1.4;
+    }
+    .collab__author {
+      color: var(--on-surface-variant);
+      font-size: var(--text-body-sm);
+    }
+    @media (max-width: 768px) {
+      .collab { grid-template-columns: 1fr; }
+      .collab__image { max-height: 300px; }
+      .collab__content { padding: var(--space-8); }
+    }
+
+    /* Curation Section */
+    .curation {
+      padding: var(--space-20) 0;
+    }
+
+    /* Newsletter */
+    .newsletter {
+      padding: var(--space-20) 0;
+      display: flex;
+      justify-content: center;
+    }
+    .newsletter__card {
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+    .newsletter__card h2 {
+      margin-bottom: var(--space-3);
+    }
+    .newsletter__card p {
+      margin-bottom: var(--space-8);
+    }
+    .newsletter__form {
+      display: flex;
+      gap: var(--space-3);
+    }
+    .newsletter__form .input {
+      flex: 1;
+    }
+    @media (max-width: 640px) {
+      .newsletter__form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body class="page-body">
+
+  <!-- ====== GNB ====== -->
+  <header class="gnb" id="gnb">
+    <div class="gnb__inner">
+      <a href="index.html" class="gnb__logo">NEON NOIR</a>
+      <nav>
+        <ul class="gnb__nav">
+          <li><a href="product-list.html" class="gnb__link">New Arrivals</a></li>
+          <li><a href="product-list.html" class="gnb__link">Best Sellers</a></li>
+          <li><a href="product-list.html" class="gnb__link">Exclusives</a></li>
+        </ul>
+      </nav>
+      <div class="gnb__actions">
+        <button class="btn-icon" aria-label="Search" onclick="alert('검색 기능은 Phase 3에서 구현됩니다.')">
+          <span class="material-symbols-outlined">search</span>
+        </button>
+        <a href="cart.html" class="btn-icon" aria-label="Cart" style="position:relative">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          <span class="badge" id="cart-badge">0</span>
+        </a>
+        <a href="login.html" class="btn-icon" aria-label="Account">
+          <span class="material-symbols-outlined">person</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ====== HERO ====== -->
+    <section class="hero" id="hero">
+      <div class="hero__glow hero__glow--purple"></div>
+      <div class="hero__glow hero__glow--blue"></div>
+      <div class="hero__content">
+        <p class="hero__label">✦ The Electric Gallery</p>
+        <h1 class="hero__title">BEYOND BORDERS</h1>
+        <p class="hero__desc">
+          국경을 초월한 아티스트들의 프리미엄 컬렉터블 아트 & 굿즈.
+          한정판 아이템을 갤러리에서 만나보세요.
+        </p>
+        <div style="display:flex; gap:var(--space-4); justify-content:center; flex-wrap:wrap">
+          <a href="product-list.html" class="btn btn--primary btn--lg">
+            <span class="material-symbols-outlined">storefront</span>
+            Shop Now
+          </a>
+          <a href="#curation" class="btn btn--secondary btn--lg">
+            <span class="material-symbols-outlined">palette</span>
+            Explore Gallery
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== ARTIST COLLAB ====== -->
+    <section class="collab">
+      <div class="collab__image">
+        <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=600&fit=crop" alt="Artist collaboration">
+      </div>
+      <div class="collab__content">
+        <span class="label label--secondary">ARTIST COLLABORATION</span>
+        <blockquote class="collab__quote">
+          "경계를 허무는 예술, 그것이 우리가 추구하는 쇼핑 경험입니다."
+        </blockquote>
+        <p class="collab__author">— Neon Noir Creative Studio</p>
+        <div>
+          <a href="product-list.html" class="btn btn--tertiary">VIEW COLLECTION →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CURATED GALLERY ====== -->
+    <section class="curation" id="curation">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-header__label">✦ Curated Selection</p>
+            <h2 class="section-header__title">Featured Items</h2>
+          </div>
+          <a href="product-list.html" class="btn btn--tertiary">View All →</a>
+        </div>
+
+        <div class="product-grid" id="product-grid">
+          <!-- JS가 동적으로 렌더링 (현재는 정적 데이터) -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== NEWSLETTER ====== -->
+    <section class="newsletter">
+      <div class="glass-card newsletter__card">
+        <span class="label label--secondary">STAY CONNECTED</span>
+        <h2>Get Exclusive Drops</h2>
+        <p>한정판 입고 소식과 아티스트 콜라보 알림을 가장 먼저 받아보세요.</p>
+        <form class="newsletter__form" onsubmit="event.preventDefault(); showToast('구독 감사합니다! 🎉', 'success');">
+          <input type="email" class="input" placeholder="your@email.com" required>
+          <button type="submit" class="btn btn--primary">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="footer__grid">
+      <div>
+        <p class="footer__brand">NEON NOIR</p>
+        <p class="footer__desc">프리미엄 컬렉터블 아트 & 굿즈 갤러리.<br>국경을 초월한 아티스트들의 창작물을 만나보세요.</p>
+      </div>
+      <div>
+        <p class="footer__title">Shop</p>
+        <ul class="footer__links">
+          <li><a href="product-list.html" class="footer__link">New Arrivals</a></li>
+          <li><a href="product-list.html" class="footer__link">Best Sellers</a></li>
+          <li><a href="product-list.html" class="footer__link">Exclusives</a></li>
+          <li><a href="product-list.html" class="footer__link">All Items</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__title">Support</p>
+        <ul class="footer__links">
+          <li><a href="#" class="footer__link">FAQ</a></li>
+          <li><a href="#" class="footer__link">Shipping</a></li>
+          <li><a href="#" class="footer__link">Returns</a></li>
+          <li><a href="#" class="footer__link">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__title">Follow</p>
+        <ul class="footer__links">
+          <li><a href="#" class="footer__link">Instagram</a></li>
+          <li><a href="#" class="footer__link">Twitter / X</a></li>
+          <li><a href="#" class="footer__link">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer__bottom">© 2026 Neon Noir Boutique. All rights reserved.</p>
+  </footer>
+
+  <!-- ====== TOAST ====== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ====== JS ====== -->
+  <script>
+    // --- 샘플 상품 데이터 (DB 연동 전 임시) ---
+    const sampleProducts = [
+      { id: 1, title: 'Shadow Monarch Acrylic Standee', price: 24.99, genre: 'Fantasy', badge: 'Rare', image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&h=800&fit=crop' },
+      { id: 2, title: 'Villainess Reverses the Hourglass Vol.1', price: 35.00, genre: 'Romance', badge: null, image: 'https://images.unsplash.com/photo-1629196914375-d6a56f581a42?w=600&h=800&fit=crop' },
+      { id: 3, title: 'Abyssal Dragon Ceramic Mug', price: 18.00, genre: 'Fantasy', badge: 'New', image: 'https://images.unsplash.com/photo-1611174743420-3d7df880ce32?w=600&h=800&fit=crop' },
+      { id: 4, title: 'Hero\'s Crest Enamel Pin Set', price: 12.50, genre: 'Action', badge: null, image: 'https://images.unsplash.com/photo-1586075010882-3a0c26cf0d4f?w=600&h=800&fit=crop' },
+      { id: 5, title: 'Floating Island Lithograph', price: 45.00, genre: 'Fantasy', badge: 'Rare', image: 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=600&h=800&fit=crop' },
+      { id: 6, title: 'Mana Weaver Oversized Hoodie', price: 55.00, genre: 'Slice of Life', badge: null, image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&h=800&fit=crop' },
+      { id: 7, title: 'Crystal Sword Letter Opener', price: 22.50, genre: 'Fantasy', badge: 'New', image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&h=800&fit=crop' },
+      { id: 8, title: 'Neon Cityscape Canvas Print', price: 68.00, genre: 'Sci-Fi', badge: 'Rare', image: 'https://images.unsplash.com/photo-1534312527009-56c7016453e6?w=600&h=800&fit=crop' },
+    ];
+
+    // --- 상품 카드 렌더링 ---
+    function renderProducts(products) {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = products.map(p => `
+        <a href="product-detail.html?id=${p.id}" class="card" style="text-decoration:none">
+          ${p.badge ? `<span class="card__badge card__badge--${p.badge.toLowerCase()}">${p.badge}</span>` : ''}
+          <div class="card__image">
+            <img src="${p.image}" alt="${p.title}" loading="lazy">
+          </div>
+          <div class="card__body">
+            <p class="card__genre">${p.genre}</p>
+            <h3 class="card__title">${p.title}</h3>
+            <div class="card__actions">
+              <span class="card__price">$${p.price.toFixed(2)}</span>
+              <button class="btn-icon" onclick="event.preventDefault(); addToCart(${p.id})" aria-label="Add to cart">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+            </div>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    // --- 장바구니 (localStorage 기반, DB 연동 전) ---
+    function getCart() {
+      return JSON.parse(localStorage.getItem('neonCart') || '[]');
+    }
+    function saveCart(cart) {
+      localStorage.setItem('neonCart', JSON.stringify(cart));
+      updateCartBadge();
+    }
+    function addToCart(id) {
+      const product = sampleProducts.find(p => p.id === id);
+      if (!product) return;
+      const cart = getCart();
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ id: product.id, title: product.title, price: product.price, image: product.image, genre: product.genre, qty: 1 });
+      }
+      saveCart(cart);
+      showToast(`"${product.title}" 장바구니에 담겼습니다!`, 'success');
+    }
+    function updateCartBadge() {
+      const cart = getCart();
+      const total = cart.reduce((s, i) => s + i.qty, 0);
+      const badge = document.getElementById('cart-badge');
+      if (badge) {
+        badge.textContent = total;
+        badge.style.display = total > 0 ? 'flex' : 'none';
+      }
+    }
+
+    // --- Toast ---
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.className = `toast toast--${type} toast--visible`;
+      toast.textContent = msg;
+      setTimeout(() => { toast.classList.remove('toast--visible'); }, 3000);
+    }
+
+    // --- GNB 스크롤 효과 ---
+    window.addEventListener('scroll', () => {
+      const gnb = document.getElementById('gnb');
+      if (window.scrollY > 50) {
+        gnb.style.background = 'rgba(19, 19, 21, 0.9)';
+      } else {
+        gnb.style.background = 'rgba(19, 19, 21, 0.6)';
+      }
+    });
+
+    // --- Init ---
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts(sampleProducts);
+      updateCartBadge();
+    });
+  </script>
+</body>
+</html>

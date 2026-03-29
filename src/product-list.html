@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Neon Noir Boutique — 프리미엄 컬렉터블 전체 상품을 만나보세요.">
+  <title>All Products — Neon Noir Boutique</title>
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .listing-hero {
+      padding: var(--space-16) 0 var(--space-10);
+      text-align: center;
+      background: linear-gradient(to bottom, var(--surface-container-low), var(--bg));
+    }
+    .listing-hero h1 {
+      font-size: var(--text-display-md);
+      margin-bottom: var(--space-3);
+    }
+    .listing-hero p { max-width: 480px; margin: 0 auto; }
+
+    .listing-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-8);
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+    .listing-count {
+      font-size: var(--text-body-sm);
+      color: var(--outline);
+    }
+
+    .sort-select {
+      appearance: none;
+      background: var(--surface-container-high);
+      color: var(--on-surface);
+      border: none;
+      padding: var(--space-2) var(--space-6) var(--space-2) var(--space-4);
+      border-radius: var(--radius-lg);
+      font-family: var(--font-body);
+      font-size: var(--text-body-sm);
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23E5E1E4'%3E%3Cpath d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+
+    .listing-main {
+      padding: 0 0 var(--space-20);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: var(--space-20) 0;
+      color: var(--outline);
+    }
+    .no-results .material-symbols-outlined {
+      font-size: 64px;
+      margin-bottom: var(--space-4);
+      display: block;
+      color: var(--outline-variant);
+    }
+  </style>
+</head>
+<body class="page-body">
+
+  <!-- GNB -->
+  <header class="gnb" id="gnb">
+    <div class="gnb__inner">
+      <a href="index.html" class="gnb__logo">NEON NOIR</a>
+      <nav>
+        <ul class="gnb__nav">
+          <li><a href="product-list.html" class="gnb__link gnb__link--active">New Arrivals</a></li>
+          <li><a href="product-list.html" class="gnb__link">Best Sellers</a></li>
+          <li><a href="product-list.html" class="gnb__link">Exclusives</a></li>
+        </ul>
+      </nav>
+      <div class="gnb__actions">
+        <button class="btn-icon" aria-label="Search"><span class="material-symbols-outlined">search</span></button>
+        <a href="cart.html" class="btn-icon" aria-label="Cart" style="position:relative">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          <span class="badge" id="cart-badge">0</span>
+        </a>
+        <a href="login.html" class="btn-icon" aria-label="Account"><span class="material-symbols-outlined">person</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="listing-hero">
+      <div class="container">
+        <span class="label label--secondary">✦ Collection</span>
+        <h1>All Products</h1>
+        <p>프리미엄 컬렉터블 아트 & 굿즈를 한눈에 만나보세요.</p>
+      </div>
+    </section>
+
+    <!-- Filter + Grid -->
+    <section class="listing-main">
+      <div class="container">
+
+        <!-- Genre Chips -->
+        <div class="chip-group" id="genre-chips" style="margin-bottom: var(--space-6)">
+          <button class="chip chip--active" data-genre="all">All</button>
+          <button class="chip" data-genre="Fantasy">Fantasy</button>
+          <button class="chip" data-genre="Romance">Romance</button>
+          <button class="chip" data-genre="Action">Action</button>
+          <button class="chip" data-genre="Sci-Fi">Sci-Fi</button>
+          <button class="chip" data-genre="Slice of Life">Slice of Life</button>
+        </div>
+
+        <!-- Controls -->
+        <div class="listing-controls">
+          <span class="listing-count" id="listing-count">8 items</span>
+          <select class="sort-select" id="sort-select">
+            <option value="newest">Newest First</option>
+            <option value="price_asc">Price: Low → High</option>
+            <option value="price_desc">Price: High → Low</option>
+            <option value="name">Name A-Z</option>
+          </select>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid" id="product-grid"></div>
+
+        <!-- No Results -->
+        <div class="no-results" id="no-results" style="display:none">
+          <span class="material-symbols-outlined">search_off</span>
+          <p>해당 장르의 상품이 없습니다.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__grid">
+      <div>
+        <p class="footer__brand">NEON NOIR</p>
+        <p class="footer__desc">프리미엄 컬렉터블 아트 & 굿즈 갤러리.</p>
+      </div>
+      <div>
+        <p class="footer__title">Shop</p>
+        <ul class="footer__links">
+          <li><a href="product-list.html" class="footer__link">New Arrivals</a></li>
+          <li><a href="product-list.html" class="footer__link">Best Sellers</a></li>
+          <li><a href="product-list.html" class="footer__link">Exclusives</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__title">Support</p>
+        <ul class="footer__links">
+          <li><a href="#" class="footer__link">FAQ</a></li>
+          <li><a href="#" class="footer__link">Shipping</a></li>
+          <li><a href="#" class="footer__link">Returns</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__title">Follow</p>
+        <ul class="footer__links">
+          <li><a href="#" class="footer__link">Instagram</a></li>
+          <li><a href="#" class="footer__link">Twitter / X</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer__bottom">© 2026 Neon Noir Boutique. All rights reserved.</p>
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // --- 샘플 데이터 ---
+    const allProducts = [
+      { id: 1, title: 'Shadow Monarch Acrylic Standee', price: 24.99, genre: 'Fantasy', badge: 'Rare', image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&h=800&fit=crop' },
+      { id: 2, title: 'Villainess Reverses the Hourglass Vol.1', price: 35.00, genre: 'Romance', badge: null, image: 'https://images.unsplash.com/photo-1629196914375-d6a56f581a42?w=600&h=800&fit=crop' },
+      { id: 3, title: 'Abyssal Dragon Ceramic Mug', price: 18.00, genre: 'Fantasy', badge: 'New', image: 'https://images.unsplash.com/photo-1611174743420-3d7df880ce32?w=600&h=800&fit=crop' },
+      { id: 4, title: "Hero's Crest Enamel Pin Set", price: 12.50, genre: 'Action', badge: null, image: 'https://images.unsplash.com/photo-1586075010882-3a0c26cf0d4f?w=600&h=800&fit=crop' },
+      { id: 5, title: 'Floating Island Lithograph', price: 45.00, genre: 'Fantasy', badge: 'Rare', image: 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=600&h=800&fit=crop' },
+      { id: 6, title: 'Mana Weaver Oversized Hoodie', price: 55.00, genre: 'Slice of Life', badge: null, image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&h=800&fit=crop' },
+      { id: 7, title: 'Crystal Sword Letter Opener', price: 22.50, genre: 'Fantasy', badge: 'New', image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&h=800&fit=crop' },
+      { id: 8, title: 'Neon Cityscape Canvas Print', price: 68.00, genre: 'Sci-Fi', badge: 'Rare', image: 'https://images.unsplash.com/photo-1534312527009-56c7016453e6?w=600&h=800&fit=crop' },
+      { id: 9, title: 'Moonlit Romance Art Book', price: 42.00, genre: 'Romance', badge: 'New', image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=800&fit=crop' },
+      { id: 10, title: 'Thunderbolt Action Figure', price: 38.50, genre: 'Action', badge: 'Best', image: 'https://images.unsplash.com/photo-1608889825103-eb5ed706fc64?w=600&h=800&fit=crop' },
+      { id: 11, title: 'Galaxy Drift Poster Set', price: 28.00, genre: 'Sci-Fi', badge: null, image: 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=600&h=800&fit=crop' },
+      { id: 12, title: 'Sakura Breeze Tote Bag', price: 19.99, genre: 'Slice of Life', badge: 'New', image: 'https://images.unsplash.com/photo-1597633125184-9fa2fa092dc7?w=600&h=800&fit=crop' },
+    ];
+
+    let currentGenre = 'all';
+    let currentSort = 'newest';
+
+    // --- 렌더링 ---
+    function renderProducts() {
+      let filtered = currentGenre === 'all'
+        ? [...allProducts]
+        : allProducts.filter(p => p.genre === currentGenre);
+
+      switch (currentSort) {
+        case 'price_asc':  filtered.sort((a, b) => a.price - b.price); break;
+        case 'price_desc': filtered.sort((a, b) => b.price - a.price); break;
+        case 'name':       filtered.sort((a, b) => a.title.localeCompare(b.title)); break;
+        default:           filtered.sort((a, b) => b.id - a.id); break;
+      }
+
+      const grid = document.getElementById('product-grid');
+      const noResults = document.getElementById('no-results');
+      const count = document.getElementById('listing-count');
+
+      if (filtered.length === 0) {
+        grid.style.display = 'none';
+        noResults.style.display = 'block';
+        count.textContent = '0 items';
+        return;
+      }
+
+      grid.style.display = '';
+      noResults.style.display = 'none';
+      count.textContent = `${filtered.length} items`;
+
+      grid.innerHTML = filtered.map(p => `
+        <a href="product-detail.html?id=${p.id}" class="card" style="text-decoration:none">
+          ${p.badge ? `<span class="card__badge card__badge--${p.badge.toLowerCase()}">${p.badge}</span>` : ''}
+          <div class="card__image">
+            <img src="${p.image}" alt="${p.title}" loading="lazy">
+          </div>
+          <div class="card__body">
+            <p class="card__genre">${p.genre}</p>
+            <h3 class="card__title">${p.title}</h3>
+            <div class="card__actions">
+              <span class="card__price">$${p.price.toFixed(2)}</span>
+              <button class="btn-icon" onclick="event.preventDefault(); addToCart(${p.id})" aria-label="Add to cart">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+            </div>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    // --- 필터 칩 ---
+    document.getElementById('genre-chips').addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      document.querySelectorAll('#genre-chips .chip').forEach(c => c.classList.remove('chip--active'));
+      chip.classList.add('chip--active');
+      currentGenre = chip.dataset.genre;
+      renderProducts();
+    });
+
+    // --- 정렬 ---
+    document.getElementById('sort-select').addEventListener('change', e => {
+      currentSort = e.target.value;
+      renderProducts();
+    });
+
+    // --- 장바구니 ---
+    function getCart() { return JSON.parse(localStorage.getItem('neonCart') || '[]'); }
+    function saveCart(cart) { localStorage.setItem('neonCart', JSON.stringify(cart)); updateCartBadge(); }
+    function addToCart(id) {
+      const product = allProducts.find(p => p.id === id);
+      if (!product) return;
+      const cart = getCart();
+      const existing = cart.find(item => item.id === id);
+      if (existing) { existing.qty += 1; }
+      else { cart.push({ id: product.id, title: product.title, price: product.price, image: product.image, genre: product.genre, qty: 1 }); }
+      saveCart(cart);
+      showToast(`"${product.title}" 장바구니에 담겼습니다!`, 'success');
+    }
+    function updateCartBadge() {
+      const cart = getCart();
+      const total = cart.reduce((s, i) => s + i.qty, 0);
+      const badge = document.getElementById('cart-badge');
+      badge.textContent = total;
+      badge.style.display = total > 0 ? 'flex' : 'none';
+    }
+
+    // --- Toast ---
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.className = `toast toast--${type} toast--visible`;
+      toast.textContent = msg;
+      setTimeout(() => toast.classList.remove('toast--visible'), 3000);
+    }
+
+    // --- GNB scroll ---
+    window.addEventListener('scroll', () => {
+      document.getElementById('gnb').style.background =
+        window.scrollY > 50 ? 'rgba(19,19,21,0.9)' : 'rgba(19,19,21,0.6)';
+    });
+
+    // --- Init ---
+    document.addEventListener('DOMContentLoaded', () => { renderProducts(); updateCartBadge(); });
+  </script>
+</body>
+</html>

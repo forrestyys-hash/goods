@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shopping Cart - The Illustrated Boutique</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#fef3ff",
+              "secondary": "#a33800",
+              "surface-dim": "#eac8ff",
+              "primary-fixed": "#b58bff",
+              "background": "#fef3ff",
+              "tertiary-dim": "#005673",
+              "surface-container": "#f6e1ff",
+              "surface-container-highest": "#efd3ff",
+              "primary-container": "#b58bff",
+              "on-primary": "#f9efff",
+              "on-error": "#ffefef",
+              "on-primary-fixed": "#000000",
+              "on-tertiary-fixed-variant": "#004157",
+              "secondary-fixed": "#ffc4af",
+              "surface-container-low": "#fbecff",
+              "surface-container-high": "#f2daff",
+              "on-tertiary": "#e6f5ff",
+              "on-primary-fixed-variant": "#3b0081",
+              "on-secondary": "#ffefeb",
+              "tertiary-fixed-dim": "#00b2eb",
+              "surface-variant": "#efd3ff",
+              "surface": "#fef3ff",
+              "tertiary-container": "#00c1fd",
+              "secondary-dim": "#8f3000",
+              "inverse-surface": "#180428",
+              "on-error-container": "#510017",
+              "on-primary-container": "#30006a",
+              "on-secondary-container": "#812b00",
+              "primary": "#751fe7",
+              "on-tertiary-fixed": "#001e2b",
+              "error-dim": "#a70138",
+              "tertiary-fixed": "#00c1fd",
+              "on-surface": "#3b264b",
+              "tertiary": "#006384",
+              "on-secondary-fixed": "#611e00",
+              "primary-fixed-dim": "#a978ff",
+              "surface-tint": "#751fe7",
+              "error": "#b41340",
+              "outline": "#866d97",
+              "on-surface-variant": "#6a527a",
+              "error-container": "#f74b6d",
+              "inverse-primary": "#a775ff",
+              "primary-dim": "#6800d8",
+              "on-background": "#3b264b",
+              "on-secondary-fixed-variant": "#903100",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed-dim": "#ffb194",
+              "secondary-container": "#ffc4af",
+              "inverse-on-surface": "#ae93bf",
+              "on-tertiary-container": "#00374b",
+              "outline-variant": "#bfa3d0"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-[#fef3ff] dark:bg-slate-950 shadow-[0_12px_32px_rgba(59,38,75,0.08)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto font-['Plus_Jakarta_Sans'] tracking-tight">
+<div class="text-2xl font-black text-[#751fe7] dark:text-[#b58bff]">The Illustrated Boutique</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#6a527a] dark:text-slate-400 font-medium hover:text-[#751fe7] transition-colors duration-200" href="#">New Arrivals</a>
+<a class="text-[#6a527a] dark:text-slate-400 font-medium hover:text-[#751fe7] transition-colors duration-200" href="#">Best Sellers</a>
+<a class="text-[#6a527a] dark:text-slate-400 font-medium hover:text-[#751fe7] transition-colors duration-200" href="#">Exclusives</a>
+<a class="text-[#6a527a] dark:text-slate-400 font-medium hover:text-[#751fe7] transition-colors duration-200" href="#">Artists</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined text-[#751fe7] cursor-pointer">search</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative text-[#751fe7] p-2 hover:bg-[#f6e1ff] rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="shopping_cart" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+<span class="absolute -top-1 -right-1 bg-secondary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+</button>
+<button class="text-[#751fe7] p-2 hover:bg-[#f6e1ff] rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow max-w-7xl mx-auto w-full px-4 md:px-8 py-12">
+<!-- Hero Panel Title -->
+<div class="mb-10">
+<h1 class="text-4xl md:text-5xl font-black text-primary tracking-tighter mb-2">Your Collection</h1>
+<p class="text-on-surface-variant font-medium">Review your selected panels before final checkout.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Cart Items Section -->
+<div class="lg:col-span-8 space-y-6">
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden">
+<div class="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-surface-container text-on-surface-variant text-sm font-bold uppercase tracking-wider">
+<div class="col-span-6">Product</div>
+<div class="col-span-2 text-center">Price</div>
+<div class="col-span-2 text-center">Quantity</div>
+<div class="col-span-2 text-right">Total</div>
+</div>
+<!-- Cart Item 1 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-8 border-b border-surface-container last:border-0 items-center">
+<div class="col-span-12 md:col-span-6 flex gap-4 items-center">
+<div class="w-24 h-32 flex-shrink-0 bg-surface-container rounded-lg overflow-hidden relative">
+<img alt="Item 1" class="w-full h-full object-cover" data-alt="Close-up of a high-quality acrylic standee featuring a vibrantly colored anime character with purple hair in a dynamic pose" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSxe5caVjbhO5pH6Ow0VKK3zohzPScvjzwSZUDcmz2XSSctyfAuqcKqhIjFkMFkedUPB0PEbWpal5ioJRv5rPKJpNaD-1qBuSyOQow-BDDAUJ6aIV0bosMqGypeRFib1NvAm2cZ82DKlDHSOzgveYvF4aGNqhDeh_U25ZZfKlpTZC7aJC2mt9TRoR2NKTkcVoxxpHOgYHsFL5fK7Ld1j4Mez1Jg5fzo4o1uaS7BhtMSiVkB1-TxwBY8UV7kDy6Vrb-jWdM5pkYkHwR"/>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs font-bold text-secondary-dim uppercase tracking-widest">Fantasy</span>
+<h3 class="text-lg font-bold text-on-surface">Shadow Monarch Acrylic Standee</h3>
+<p class="text-sm text-on-surface-variant">Limited Edition - Solo Leveling Series</p>
+<button class="text-xs font-bold text-error mt-2 flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">delete</span> Remove
+                                </button>
+</div>
+</div>
+<div class="col-span-4 md:col-span-2 text-center">
+<span class="md:hidden text-xs text-on-surface-variant block mb-1">Price</span>
+<span class="font-bold text-on-surface">$24.99</span>
+</div>
+<div class="col-span-4 md:col-span-2 flex justify-center">
+<div class="flex items-center bg-surface-container rounded-full px-3 py-1">
+<button class="text-primary font-bold px-2">-</button>
+<span class="px-4 font-bold">1</span>
+<button class="text-primary font-bold px-2">+</button>
+</div>
+</div>
+<div class="col-span-4 md:col-span-2 text-right">
+<span class="md:hidden text-xs text-on-surface-variant block mb-1">Total</span>
+<span class="font-black text-primary">$24.99</span>
+</div>
+</div>
+<!-- Cart Item 2 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-8 border-b border-surface-container last:border-0 items-center">
+<div class="col-span-12 md:col-span-6 flex gap-4 items-center">
+<div class="w-24 h-32 flex-shrink-0 bg-surface-container rounded-lg overflow-hidden relative">
+<img alt="Item 2" class="w-full h-full object-cover" data-alt="Elegant hardbound webtoon volume with gold foil lettering on the spine, resting on a soft velvet purple fabric" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiPiSzHNTRWd-e4zrfT5B682v0bdZjHAWHVOTgQ3dfQ3TFIUjZAu0o8-Czv4awcJZx1Ndr1KzRO2lbwnvlHJ-6ketR3ZsaGZmsJQISVdXHnbVrQ7WZA1KTg9RKvx4pYQ27v-ee90WG9yGCzqW31LC64OnA6BELSxmvCoz2N-JOAgt186PtHl4o-Eo-6J6hie271NgPFRU9OW-CCVKr22yiF9S-aHg3i3bvAU5iVNO4f0GuCpr6ifWSP_ZI7ZuIRBOj8hSytrIrufo7"/>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs font-bold text-secondary-dim uppercase tracking-widest">Romance</span>
+<h3 class="text-lg font-bold text-on-surface">The Villainess Reverses the Hourglass Vol. 1</h3>
+<p class="text-sm text-on-surface-variant">Hardcover Collector's Edition</p>
+<button class="text-xs font-bold text-error mt-2 flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">delete</span> Remove
+                                </button>
+</div>
+</div>
+<div class="col-span-4 md:col-span-2 text-center">
+<span class="md:hidden text-xs text-on-surface-variant block mb-1">Price</span>
+<span class="font-bold text-on-surface">$35.00</span>
+</div>
+<div class="col-span-4 md:col-span-2 flex justify-center">
+<div class="flex items-center bg-surface-container rounded-full px-3 py-1">
+<button class="text-primary font-bold px-2">-</button>
+<span class="px-4 font-bold">1</span>
+<button class="text-primary font-bold px-2">+</button>
+</div>
+</div>
+<div class="col-span-4 md:col-span-2 text-right">
+<span class="md:hidden text-xs text-on-surface-variant block mb-1">Total</span>
+<span class="font-black text-primary">$35.00</span>
+</div>
+</div>
+</div>
+<!-- Shipping Message -->
+<div class="bg-secondary-container p-4 rounded-xl flex items-center gap-4">
+<span class="material-symbols-outlined text-on-secondary-container">local_shipping</span>
+<p class="text-on-secondary-container text-sm font-semibold">
+                        Add <span class="font-black">$40.01</span> more to your cart to qualify for <span class="underline">FREE Express Shipping</span>!
+                    </p>
+</div>
+</div>
+<!-- Order Summary Section -->
+<div class="lg:col-span-4 sticky top-28">
+<div class="bg-surface-container-low p-8 rounded-2xl shadow-[0_12px_32px_rgba(59,38,75,0.08)]">
+<h2 class="text-2xl font-black text-on-surface mb-6">Order Summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between text-on-surface-variant">
+<span>Subtotal</span>
+<span class="font-bold text-on-surface">$59.99</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Estimated Shipping</span>
+<span class="font-bold text-on-surface">$12.50</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Tax</span>
+<span class="font-bold text-on-surface">$4.80</span>
+</div>
+<div class="pt-4 border-t border-outline-variant/20 flex justify-between items-end">
+<span class="text-lg font-bold text-on-surface">Total</span>
+<span class="text-3xl font-black text-primary">$77.29</span>
+</div>
+</div>
+<div class="space-y-3">
+<button class="w-full bg-primary text-on-primary py-4 rounded-lg font-black text-lg shadow-lg hover:shadow-primary/20 hover:scale-[1.02] transition-all flex justify-center items-center gap-2">
+                            Proceed to Checkout
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="w-full py-4 text-primary font-bold hover:bg-surface-container-highest rounded-lg transition-colors">
+                            Continue Shopping
+                        </button>
+</div>
+<div class="mt-8 pt-8 border-t border-outline-variant/20">
+<p class="text-xs text-on-surface-variant font-medium leading-relaxed">
+<span class="material-symbols-outlined text-sm align-middle mr-1">security</span> 
+                            Secure checkout powered by Illustrated Pay. All major credit cards and digital wallets accepted.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Recommendations Section -->
+<section class="mt-24">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+<div>
+<span class="text-secondary font-black uppercase tracking-widest text-sm">Genre Pick</span>
+<h2 class="text-3xl font-black text-on-surface mt-1">You might also like...</h2>
+</div>
+<button class="bg-surface-container-highest px-6 py-2 rounded-full text-primary font-bold text-sm hover:translate-x-1 transition-transform">
+                    View All Fantasy Collection
+                </button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Rec 1 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-lowest p-4 rounded-2xl mb-4 relative overflow-hidden transition-transform group-hover:-translate-y-2">
+<div class="aspect-[3/4] rounded-xl overflow-hidden mb-4">
+<img alt="Rec 1" class="w-full h-full object-cover" data-alt="Stunning matte black ceramic mug with a subtle embossed purple dragon logo from a popular fantasy webtoon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiYuZQXCmbf3EsoQtT7LpP5zPTGUrVMnK3y2bSPNMPP6Fk_Gou3fuMUVsmd17RdZtH1-ZRwNBrGEqAO8k-3hfDc3yuFCWTjq8xTE9OjnWaJibwca1x_-zdkInzkXbEeNpDzAanabWqW4kCVmwKQB6iMyWiKn-wnAYZO6a4ADK83v3_L6ZvZQb8lynXBwBileCnaxnVpS0BrDiMrHqKmq6Gy1PlU13pxcpMBO3_38aOx0ej8xxku41WKdOf6abLJpFG8Owf-QKUc70L"/>
+</div>
+<span class="absolute top-6 right-6 bg-tertiary-container text-on-tertiary-container text-[10px] font-black px-2 py-1 rounded-full uppercase">New</span>
+<h4 class="font-bold text-on-surface line-clamp-1">Abyssal Dragon Ceramic Mug</h4>
+<div class="flex justify-between items-center mt-2">
+<span class="text-primary font-black">$18.00</span>
+<span class="material-symbols-outlined text-surface-dim group-hover:text-primary transition-colors">add_circle</span>
+</div>
+</div>
+</div>
+<!-- Rec 2 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-lowest p-4 rounded-2xl mb-4 relative overflow-hidden transition-transform group-hover:-translate-y-2">
+<div class="aspect-[3/4] rounded-xl overflow-hidden mb-4">
+<img alt="Rec 2" class="w-full h-full object-cover" data-alt="Collection of colorful enamel pins with webtoon character designs displayed on a denim jacket pocket" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDByXSashoXDTLDwoB5Kvvk9xFPR915asG-vNVGHXTAP-Un9tM2lLOmdE6Hu9vkfpiIL8zV8IvSLIf2AyAALAJ6z56ikLFb0LtYpHOpdeTlzscvhM0Yt7BWEIjQW8xbUwtKNm7zqQmfodKi-0UR73KKKDPtyyfRMPHZADNFUoSYlpXx59OaSbzcj7dauKQmSJBjPfCoPv5dNSOc-YpPYoThrPGWmu3VVS8ColZxvfQXQZ7pR4NPbvDN1Fw5tEqFUu-flrMBZ36eEF8L"/>
+</div>
+<h4 class="font-bold text-on-surface line-clamp-1">Hero's Crest Enamel Pin Set</h4>
+<div class="flex justify-between items-center mt-2">
+<span class="text-primary font-black">$12.50</span>
+<span class="material-symbols-outlined text-surface-dim group-hover:text-primary transition-colors">add_circle</span>
+</div>
+</div>
+</div>
+<!-- Rec 3 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-lowest p-4 rounded-2xl mb-4 relative overflow-hidden transition-transform group-hover:-translate-y-2">
+<div class="aspect-[3/4] rounded-xl overflow-hidden mb-4">
+<img alt="Rec 3" class="w-full h-full object-cover" data-alt="High-definition art print on metallic paper showing a panoramic fantasy cityscape with floating islands and purple skies" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPU491RyWpIKR7yMkjlEJGAwvqA_QWlo4_pQZe-7XYLrhxsQS0WEkgcRNqhm9RXg8syirUE2bGVGmkYlv0xVXjUzhTHQL7Ug9jMhJRGKqSSv654kfvUBSqj14-AFmPQKQzUZuKAA8kfFYBLm1T9JgifHsENcDMkrHlVfj_s72uw6K7Ur2g4ZA7fJBpFfaYHXjwLfwIjvR3X17RRWtFVk54vnRCsR5C6hrc3p-m29Nhp1ZkIPT6BEqXSMAkXeZHjNYfFJ2H2etZ0YhO"/>
+</div>
+<span class="absolute top-6 right-6 bg-secondary text-on-secondary text-[10px] font-black px-2 py-1 rounded-full uppercase">Rare</span>
+<h4 class="font-bold text-on-surface line-clamp-1">Floating Island Lithograph</h4>
+<div class="flex justify-between items-center mt-2">
+<span class="text-primary font-black">$45.00</span>
+<span class="material-symbols-outlined text-surface-dim group-hover:text-primary transition-colors">add_circle</span>
+</div>
+</div>
+</div>
+<!-- Rec 4 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-lowest p-4 rounded-2xl mb-4 relative overflow-hidden transition-transform group-hover:-translate-y-2">
+<div class="aspect-[3/4] rounded-xl overflow-hidden mb-4">
+<img alt="Rec 4" class="w-full h-full object-cover" data-alt="Cozy oversized purple hoodie with a minimalist line-art illustration of a cat on the chest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd0LGTls_aDgPUh1hruNOGUbhv3CbyYBAJnzlBHUN6xtPKjOGNvo3_VmGheZkNrmVFyH1yLK461a0DDr4762gtRgdxnuDLfL4yjk3FN4jti9WURoaCuGLI93b25ven67yHuGV2YPbm4vEbv2oiK33Eqcu3PWzvyPVQ4Po_PU_Ta9pbsjd0pzBY3qmsMgPE3A8Q1Bu8XEk7UdvGt0zM7EICcnxDIMoMxthkJlt5ks6Ue_MzecWkbiZwbwVKykVYDR2E9V1J3g9C5Y_r"/>
+</div>
+<h4 class="font-bold text-on-surface line-clamp-1">Mana Weaver Oversized Hoodie</h4>
+<div class="flex justify-between items-center mt-2">
+<span class="text-primary font-black">$55.00</span>
+<span class="material-symbols-outlined text-surface-dim group-hover:text-primary transition-colors">add_circle</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-[#f6e1ff] dark:bg-slate-900 font-['Manrope'] text-sm">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-8 py-12 max-w-7xl mx-auto">
+<div class="flex flex-col gap-4">
+<div class="text-xl font-black text-[#751fe7]">The Illustrated Boutique</div>
+<p class="text-[#6a527a] dark:text-slate-400">Curating the finest collectibles from your favorite panels to your shelves.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">social_leaderboard</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">photo_camera</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">movie</span>
+</div>
+</div>
+<div>
+<h4 class="font-black text-on-surface mb-6 uppercase tracking-widest text-xs">Shop Genres</h4>
+<ul class="space-y-3">
+<li><a class="text-[#6a527a] dark:text-slate-400 hover:text-[#751fe7] transition-colors" href="#">Fantasy &amp; Magic</a></li>
+<li><a class="text-[#6a527a] dark:text-slate-400 hover:text-[#751fe7] transition-colors" href="#">Action &amp; Leveling</a></li>
+<li><a class="text-[#6a527a] dark:text-slate-400 hover:text-[#751fe7] transition-colors" href="#">Romance &amp; Royalty</a></li>
+<li><a class="text-[#6a527a] dark:text-slate-400 hover:text-[#751fe7] transition-colors" href="#">Slice of Life</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-black text-on-surface mb-6 uppercase tracking-widest text-xs">Help &amp; Support</h4>
+<ul class="space-y-3">
+<li><a class="text-[#6a527a] dark:text-slate-400 hover:text-[#751fe7] transition-colors" href="#">Shipping Info</a></li>
+<li><a class="text-[#6a527a] dark:text-slate-400 hover:text-[#751fe7] transition-colors" href="#">Order Tracking</a></li>
+<li><a class="text-[#6a527a] dark:text-slate-400 hover:text-[#751fe7] transition-colors" href="#">Returns &amp; Exchanges</a></li>
+<li><a class="text-[#6a527a] dark:text-slate-400 hover:text-[#751fe7] transition-colors" href="#">Contact Us</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-black text-on-surface mb-6 uppercase tracking-widest text-xs">Newsletter</h4>
+<p class="text-xs text-[#6a527a] mb-4">Get the first drop on limited edition releases.</p>
+<div class="flex gap-2">
+<input class="bg-white border-0 rounded-lg text-sm w-full focus:ring-2 focus:ring-primary" placeholder="Email Address" type="email"/>
+<button class="bg-primary text-white p-2 rounded-lg hover:bg-primary-dim transition-colors">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-[#efd3ff] dark:bg-slate-800 py-6 text-center text-[#6a527a] dark:text-slate-400">
+<p>© 2024 The Illustrated Boutique. All Rights Reserved.</p>
+</div>
+</footer>
+</body></html>
