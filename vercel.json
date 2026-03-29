@@ -1,0 +1,7 @@
+{
+  "public": false,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/src/$1" }
+  ],
+  "cleanUrls": true
+}
